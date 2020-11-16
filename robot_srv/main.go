@@ -15,8 +15,8 @@ func main() {
 			_, _ = fmt.Fprintf(writer, "not support http get")
 			return
 		}
-		if request.ContentLength > 1024 {
-			log.Printf("content length to large,> 1024")
+		if request.ContentLength > 10*1024*1024 {
+			log.Printf("content length to large,> 10MB")
 			return
 		}
 
