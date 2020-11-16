@@ -85,13 +85,17 @@ func main() {
 		}
 
 		res := map[string]interface{}{
-			"price": price,
+			"price":    price,
+			"err_code": 0,
+			"err_msg":  "success",
 		}
 		data, err := json.Marshal(res)
 		if err != nil {
 			log.Println(err.Error())
 			return
 		}
+
+		log.Println(fmt.Sprintf("/house/price2 response:%s", string(data)))
 
 		_, err = writer.Write(data)
 		if err != nil {
