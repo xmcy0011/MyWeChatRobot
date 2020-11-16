@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"strconv"
 )
 
 const kListenPort = 8099
@@ -60,6 +59,9 @@ func main() {
 	})
 
 	// 服务接口方式测试
+	// 官网文档：https://developers.weixin.qq.com/doc/aispeech/platform/di-san-fang-api-diao-yong.html
+	// 输出格式：https://developers.weixin.qq.com/doc/aispeech/platform/3rdparty_api.html
+	// 房价：https://hangzhou.anjuke.com/market/
 	// GET 输入：city，输出：price
 	http.HandleFunc("/house/price2", func(writer http.ResponseWriter, request *http.Request) {
 		if request.Method != "GET" {
@@ -86,7 +88,11 @@ func main() {
 		}
 
 		res := map[string]interface{}{
-			"price":    strconv.Itoa(price),
+			"data_list": []interface{}{
+				map[string]interface{}{
+					"price": price,
+				},
+			},
 			"err_code": 0,
 			"err_msg":  "success",
 		}
