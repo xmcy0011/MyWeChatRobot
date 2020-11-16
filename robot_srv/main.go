@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/bitly/go-simplejson"
 	"io/ioutil"
@@ -11,6 +12,7 @@ import (
 const kListenPort = 8099
 
 func main() {
+	// 接口回调测试
 	http.HandleFunc("/house/price", func(writer http.ResponseWriter, request *http.Request) {
 		if request.Method != "POST" {
 			_, _ = fmt.Fprintf(writer, "not support http get")
@@ -55,6 +57,46 @@ func main() {
 		}
 		//_, _ = fmt.Fprintf(writer, string(resData))
 	})
+
+	// 服务接口方式测试
+	// GET 输入：city，输出：price
+	http.HandleFunc("/house/price2", func(writer http.ResponseWriter, request *http.Request) {
+		if request.Method != "GET" {
+			log.Println("not support http post")
+			return
+		}
+
+		city := request.URL.Query().Get("city")
+		if city == "" {
+			log.Println("invalid city")
+			return
+		}
+
+		price := 52624
+		switch city {
+		case "北京":
+			price = 57192
+		case "深圳":
+			price = 56569
+		case "杭州":
+			price = 28148
+		}
+
+		res := map[string]interface{}{
+			"price": price,
+		}
+		data, err := json.Marshal(res)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+
+		_, err = writer.Write(data)
+		if err != nil {
+			log.Println(err.Error())
+		}
+	})
+
 	log.Print("server start on :", kListenPort)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", kListenPort), nil))
 }
