@@ -49,7 +49,7 @@ func main() {
 			return
 		}
 
-		log.Printf("http get/post,method:%s,header:%v,body:%s \n", request.Method, request.Header, string(body))
+		log.Printf("/house/price method:%s,header:%v,body:%s \n", request.Method, request.Header, string(body))
 
 		_, err = writer.Write(resData)
 		if err != nil {
@@ -71,6 +71,8 @@ func main() {
 			log.Println("invalid city")
 			return
 		}
+
+		log.Println(fmt.Sprintf("/house/price2 city:%s", city))
 
 		price := 52624
 		switch city {
