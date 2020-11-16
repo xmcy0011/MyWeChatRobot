@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 const kListenPort = 8099
@@ -85,7 +86,7 @@ func main() {
 		}
 
 		res := map[string]interface{}{
-			"price":    price,
+			"price":    strconv.Itoa(price),
 			"err_code": 0,
 			"err_msg":  "success",
 		}
